@@ -1,8 +1,11 @@
 <?php
 
-/**
- * ShowOff/Functions::enable()
- */
+
+use function /** @noinspection PhpParamsInspection */
+    \Triki\Partial\makePartial;
+use function  /** @noinspection PhpParamsInspection */
+    \Triki\Partial\withPartialDo;
+use \Triki\Partial;
 
 /**
  * returns args you'be passed as array - great for testing
@@ -14,10 +17,6 @@ function giveMeAllYourArgs($x, $y) {
     return func_get_args();
 }
 
-
-
-
-
 class SomeObject {
     public function publicMethod($x, $y)
     {
@@ -25,15 +24,11 @@ class SomeObject {
     }
 }
 
-use function /** @noinspection PhpParamsInspection */
-    YAT\Partial\makePartial;
-use function  /** @noinspection PhpParamsInspection */
-    YAT\Partial\withPartialDo;
 class PartialTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
-        YAT\Partial::load();
+        \Triki\Partial::load();
     }
 
     public function test_partial_function()
@@ -43,10 +38,26 @@ class PartialTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals([2, 4], $originalWithXSetTo2(4));
     }
 
-//    public function test_partial_with_placeholder()
-//    {
-//        $originalWithYSetTo2 = makePartial('giveMeAllYourArgs', )
-//    }
+    public function test_partial_with_placeholder()
+    {
+        /** @var callable $originalWithYSetTo2 */
+        $originalWithYSetTo2 = makePartial('giveMeAllYourArgs', Partial::_(), 2);
+        $this->assertEquals([1, 2], $originalWithYSetTo2(1));
+    }
+
+    public function test_partial_with_many_placeholders()
+    {
+        /** @var callable $functionWithOddParamsSet */
+        $functionWithOddParamsSet = makePartial(
+            'giveMeAllYourArgs',
+            1, Partial::_(), 3, Partial::_(), 5
+            );
+
+        $this->assertEquals(
+            [1, 2, 3, 4, 5, 6],
+            $functionWithOddParamsSet(2, 4, 6)
+        );
+    }
 
     public function test_partial_for_object()
     {

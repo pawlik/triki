@@ -1,5 +1,5 @@
 <?php
-namespace YAT\Partial;
+namespace Triki\Partial;
 
 /**
  * creates partial function
@@ -22,6 +22,14 @@ function makePartial($fun) {
     array_shift($bindedArgs);
     return function()use($fun, $bindedArgs) {
         $_args = func_get_args();
+
+        foreach($bindedArgs as &$argument)
+        {
+            if($argument instanceof \Triki\Partial\Placeholder) {
+                $argument =  array_shift($_args);
+            }
+        }
+
         $_args = array_merge($bindedArgs, $_args);
         return call_user_func_array($fun, $_args);
     };
@@ -42,6 +50,6 @@ function withPartialDo($fun) {
     $args = func_get_args();
     /** @var callable $callback */
     $callback = array_pop($args);
-    $partial = call_user_func_array('YAT\Partial\makePartial', $args);
+    $partial = call_user_func_array('Triki\Partial\makePartial', $args);
     return $callback($partial);
 }
