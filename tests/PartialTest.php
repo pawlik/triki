@@ -5,7 +5,7 @@ use function /** @noinspection PhpParamsInspection */
     \Triki\Partial\makePartial;
 use function  /** @noinspection PhpParamsInspection */
     \Triki\Partial\withPartialDo;
-use \Triki\Partial;
+use \Triki\Partials;
 
 /**
  * returns args you'be passed as array - great for testing
@@ -28,7 +28,7 @@ class PartialTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
-        \Triki\Partial::load();
+        \Triki\Partials::load();
     }
 
     public function test_partial_function()
@@ -41,7 +41,7 @@ class PartialTest extends \PHPUnit_Framework_TestCase {
     public function test_partial_with_placeholder()
     {
         /** @var callable $originalWithYSetTo2 */
-        $originalWithYSetTo2 = makePartial('giveMeAllYourArgs', Partial::_(), 2);
+        $originalWithYSetTo2 = makePartial('giveMeAllYourArgs', Partials::_(), 2);
         $this->assertEquals([1, 2], $originalWithYSetTo2(1));
     }
 
@@ -50,7 +50,7 @@ class PartialTest extends \PHPUnit_Framework_TestCase {
         /** @var callable $functionWithOddParamsSet */
         $functionWithOddParamsSet = makePartial(
             'giveMeAllYourArgs',
-            1, Partial::_(), 3, Partial::_(), 5
+            1, Partials::_(), 3, Partials::_(), 5
             );
 
         $this->assertEquals(

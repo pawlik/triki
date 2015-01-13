@@ -1,7 +1,9 @@
 <?php
 namespace Triki;
 
-class Partial {
+use Triki\Partial\Placeholder;
+
+class Partials {
     public static function load()
     {
         require_once __DIR__ . "/Partial/functions.php";
@@ -9,6 +11,6 @@ class Partial {
 
     public static function _()
     {
-        return new Partial\Placeholder();
+        return new Placeholder();
     }
-} 
+}
