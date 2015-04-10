@@ -113,8 +113,8 @@ class FooTest extends \PHPUnit_Framework_TestCase {
         $this->multiAssert('Equals',
                            [
                                [2, 2, 'Platform Id should be 2'],
-                               [1, 3, 'Order type should be 2'],
-                               [5, 7, 'Cancel date should be 5'],
+                               [3, 3, 'Order type should be 2'],
+                               [7, 7, 'Cancel date should be 5'],
                                [9, 9, 'Payment method should be '],
                            ]
         );
